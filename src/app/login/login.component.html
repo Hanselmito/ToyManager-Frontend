@@ -1,1 +1,36 @@
-<p>login works!</p>
+<div class="auth-outer">
+  <div class="auth-card">
+    <div class="auth-title-row">
+      <span class="auth-title">ToyManager</span>
+    </div>
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="auth-form">
+      <div class="auth-label-row">
+        <label class="auth-label" for="email">Email</label>
+      </div>
+      <div class="auth-input-row">
+        <img src="https://cdn-icons-png.flaticon.com/512/3064/3064197.png" class="auth-icon" alt="icon" />
+        <input id="email" type="email" formControlName="email" class="auth-input" placeholder="Introduce tu email" />
+      </div>
+      <div class="auth-error-row" *ngIf="loginForm.controls.email.invalid && loginForm.controls.email.touched">
+        Email inválido
+      </div>
+      <div class="auth-label-row">
+        <label class="auth-label" for="contrasena">Contraseña</label>
+      </div>
+      <div class="auth-input-row">
+        <img src="https://cdn-icons-png.flaticon.com/512/3064/3064197.png" class="auth-icon" alt="icon" />
+        <input id="contrasena" type="password" formControlName="contrasena" class="auth-input" placeholder="Introduce tu contraseña" />
+      </div>
+      <div class="auth-error-row" *ngIf="loginForm.controls.contrasena.invalid && loginForm.controls.contrasena.touched">
+        Contraseña requerida
+      </div>
+      <div class="auth-btn-row">
+        <button type="submit" class="auth-btn" [disabled]="loginForm.invalid">Login</button>
+      </div>
+      <div class="auth-signup-row">
+        <a routerLink="/register" class="auth-signup">Sign Up</a>
+      </div>
+      <div *ngIf="error" class="auth-error-row">{{ error }}</div>
+    </form>
+  </div>
+</div>
