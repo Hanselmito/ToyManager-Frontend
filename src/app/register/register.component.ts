@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { RouterModule } from '@angular/router';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-register',
@@ -34,25 +35,26 @@ export class RegisterComponent {
   }
 
   onSubmit() {
-    if (this.registerForm.valid) {
-      const formData = new FormData();
-      formData.append('nif', this.registerForm.get('nif')?.value!);
-      formData.append('nombre', this.registerForm.get('nombre')?.value!);
-      formData.append('email', this.registerForm.get('email')?.value!);
-      formData.append('contrasena', this.registerForm.get('contrasena')?.value!);
-      if (this.imagen) {
-        formData.append('imagen', this.imagen);
-      }
+  this.registerForm.markAllAsTouched(); // Marca todos los campos como tocados
+  if (this.registerForm.valid) {
+    const formData = new FormData();
+    formData.append('nif', this.registerForm.get('nif')?.value!);
+    formData.append('nombre', this.registerForm.get('nombre')?.value!);
+    formData.append('email', this.registerForm.get('email')?.value!);
+    formData.append('contrasena', this.registerForm.get('contrasena')?.value!);
+    if (this.imagen) {
+      formData.append('imagen', this.imagen);
+    }
 
-      this.http.post('http://localhost:8080/api/usuario/register', formData)
+    this.http.post(`${environment.apiUrl}/api/usuario/register`, formData)
       .subscribe({
         next: res => {
-          this.router.navigate(['/menu']);
+          this.router.navigate(['/menu']); // Redirige al menú
         },
         error: () => {
           this.error = 'Error al registrar usuario';
         }
       });
-    }
   }
+}
 }

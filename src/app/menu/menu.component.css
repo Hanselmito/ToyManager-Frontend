@@ -1,0 +1,131 @@
+.menu-root {
+  min-height: 100vh;
+  background: #f7f9fa;
+  display: flex;
+  flex-direction: column;
+}
+
+.menu-header {
+  display: flex;
+  align-items: center;
+  background: #e8f5e9;
+  padding: 0 32px;
+  height: 64px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+
+.menu-logo {
+  width: 40px;
+  margin-right: 16px;
+}
+
+.menu-title {
+  font-size: 2rem;
+  font-weight: bold;
+  font-style: italic;
+  color: #2e7d32;
+  text-decoration: underline;
+}
+
+.menu-spacer {
+  flex: 1;
+}
+
+.menu-username {
+  font-size: 1.1rem;
+  color: #1976d2;
+  margin-right: 16px;
+}
+
+.menu-avatar {
+  width: 40px;
+  border-radius: 50%;
+  border: 2px solid #1976d2;
+}
+
+.menu-body {
+  display: flex;
+  flex: 1;
+}
+
+.menu-sidebar {
+  width: 220px;
+  background: #c5e1a5;
+  padding: 32px 0 0 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 2px 0 8px rgba(0,0,0,0.04);
+}
+
+.menu-section {
+  width: 100%;
+  margin-bottom: 32px;
+}
+
+.menu-section-title {
+  display: block;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #1b5e20;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.menu-item {
+  width: 90%;
+  padding: 12px;
+  margin: 8px auto;
+  background: #2e7d32;
+  color: #c5e1a5;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s;
+  display: block;
+}
+
+.menu-item:hover {
+  background: #1976d2;
+  color: #fff;
+}
+
+.menu-content {
+  flex: 1;
+  padding: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.menu-list-card {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+  padding: 32px 40px;
+  min-width: 400px;
+}
+
+.menu-list-card h2 {
+  color: #1976d2;
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.product-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.product-list li {
+  padding: 12px 0;
+  border-bottom: 1px solid #e0e0e0;
+  font-size: 1.1rem;
+}
+
+.product-list li:last-child {
+  border-bottom: none;
+}

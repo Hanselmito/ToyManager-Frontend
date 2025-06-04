@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { RouterModule } from '@angular/router';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-login',
@@ -25,17 +26,18 @@ export class LoginComponent {
   }
 
   onSubmit() {
-    if (this.loginForm.valid) {
-      this.http.post('http://localhost:8080/api/usuario/login', this.loginForm.value)
-        .subscribe({
-          next: res => {
-            localStorage.setItem('user', JSON.stringify(res));
-            this.router.navigate(['/menu']);
-          },
-          error: () => {
-            this.error = 'Usuario o contraseña incorrectos';
-          }
-        });
-    }
+  this.loginForm.markAllAsTouched(); // Marca todos los campos como tocados
+  if (this.loginForm.valid) {
+    this.http.post(`${environment.apiUrl}/api/usuario/login`, this.loginForm.value)
+      .subscribe({
+        next: res => {
+          localStorage.setItem('user', JSON.stringify(res));
+          this.router.navigate(['/menu']); // Redirige al menú
+        },
+        error: () => {
+          this.error = 'Usuario o contraseña incorrectos';
+        }
+      });
   }
+}
 }
