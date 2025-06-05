@@ -34,8 +34,8 @@ export class LoginComponent {
           console.log('Login successful:', res);
           localStorage.setItem('usuarios', JSON.stringify(res));
           // Guarda el NIF (como string) y el nombre si existen en la respuesta
-          if (res && typeof res.nif === 'number') {
-            localStorage.setItem('nif', res.nif);
+          if (res && typeof res.id === 'number') {
+            localStorage.setItem('usuarioNif', res.id);
           }
           if (res && typeof res.nombre === 'string') {
             localStorage.setItem('username', res.nombre);

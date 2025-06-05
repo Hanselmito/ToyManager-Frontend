@@ -21,11 +21,11 @@ export class ProductoService {
     return this.http.get<any>(`${this.baseUrl}/${sku}`);
   }
 
-  crearProducto(producto: any, imagen: File, usuarioNif: number): Observable<any> {
+  crearProducto(producto: any,usuarioNif: number, imagen: File): Observable<any> {
   const formData = new FormData();
   formData.append('producto', JSON.stringify(producto)); // El producto como string JSON
-  formData.append('imagen', imagen); // El archivo de imagen
   formData.append('usuarioNif', usuarioNif.toString()); // NIF como string
+  formData.append('imagen', imagen); // El archivo de imagen
 
   return this.http.post('http://localhost:8080/api/productos/crear', formData);
   }
