@@ -54,24 +54,27 @@ export class ModalProductoComponent implements OnInit {
   error: string = '';
 
   guardar() {
-    const producto = {
+    const producto: any = {
       sku: this.sku,
       nombre: this.nombre,
       descripcion: this.descripcion,
       descripcion_corta: this.descripcionCorta,
       precio_venta: this.precioVenta,
       stock: this.stock,
-      categorias: [{ id: this.categoriaId }],
     };
+
+    if(this.categoriaId){
+      producto.categorias = [{ id: this.categoriaId }];
+    }
+
+    const usuarioNif = Number(localStorage.getItem('usuarioNif'));
 
     if (!this.imagen) {
       this.error = 'Selecciona una imagen';
       return;
     }
 
-    const usuarioNif = Number(localStorage.getItem('nif'));
-
-    this.productoService.crearProducto(producto, this.imagen, usuarioNif)
+    this.productoService.crearProducto(producto, usuarioNif, this.imagen)
       .subscribe({
         next: () => {
           this.error = '';
