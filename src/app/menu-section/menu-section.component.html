@@ -1,0 +1,26 @@
+<div>
+  <div *ngIf="tipo === 'productos'">
+    <input [(ngModel)]="busqueda" placeholder="Buscar producto...">
+    <select [(ngModel)]="criterioBusqueda">
+      <option value="nombre">Nombre</option>
+      <option value="sku">SKU</option>
+    </select>
+    <button (click)="buscar()">Buscar</button>
+    <button (click)="crearProducto.emit()">Crear Producto</button>
+  </div>
+  <div *ngIf="tipo !== 'productos'">
+    <input [(ngModel)]="busqueda" [placeholder]="'Buscar ' + tipo + '...'">
+    <button (click)="buscar()">Buscar</button>
+    <button (click)="cargarItems()">Recargar todo</button>
+    <button *ngIf="tipo === 'categorias'" (click)="crearProducto.emit()">Crear Categoría</button>
+    <button *ngIf="tipo === 'proveedores'" (click)="crearProducto.emit()">Crear Proveedor</button>
+  </div>
+  <ul>
+    <li *ngFor="let item of items" (dblclick)="tipo === 'productos' ? productoDobleClick.emit(item) : null">
+      <span *ngIf="tipo === 'productos'">{{ item.nombre }} (SKU: {{ item.sku }})</span>
+      <span *ngIf="tipo === 'categorias'">{{ item.nombre }}</span>
+      <span *ngIf="tipo === 'proveedores'">{{ item.nombre }} (CIF: {{ item.cif }})</span>
+      <button (click)="eliminar(item)">Eliminar</button>
+    </li>
+  </ul>
+</div>

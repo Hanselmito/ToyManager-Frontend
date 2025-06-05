@@ -1,50 +1,49 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
-import { environment } from '../../environments/environment';
-import { RouterModule } from '@angular/router';
+import { MenuSectionComponent } from '../menu-section/menu-section.component';
+import { ModalProductoComponent } from '../modal-producto/modal-producto.component';
 
 @Component({
   selector: 'app-menu',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule],
+  imports: [CommonModule, MenuSectionComponent, ModalProductoComponent],
   templateUrl: './menu.component.html',
-  styleUrl: './menu.component.css'
+  styleUrls: ['./menu.component.css']
 })
-export class MenuComponent {
-  openMenu: string | null = null;
-  currentView: string = '';
-  username: string = '';
+export class MenuComponent implements OnInit {
+  username = '';
+  tipoSeleccionado: 'productos' | 'categorias' | 'proveedores' = 'productos';
+  modalAbierto = false;
+  productoEditar: any = null;
+  modoCrear = false;
 
-  productos = [
-    { nombre: 'Producto 1' },
-    { nombre: 'Producto 2' },
-    { nombre: 'Producto 3' }
-  ];
+  constructor(private router: Router) {}
 
   ngOnInit() {
-    // Ejemplo: obtener el usuario del localStorage
-    const user = localStorage.getItem('user');
-    this.username = user ? JSON.parse(user).nombre || JSON.parse(user).email : 'Usuario';
+    if (typeof window !== 'undefined' && window.localStorage) {
+      this.username = localStorage.getItem('username') || '';
+      
+    }
   }
 
-  toggleMenu(menu: string) {
-    this.openMenu = this.openMenu === menu ? null : menu;
+  seleccionar(tipo: 'productos' | 'categorias' | 'proveedores') {
+    this.tipoSeleccionado = tipo;
   }
 
-  setView(view: string) {
-    this.currentView = view;
+  abrirModalEdicion(producto: any) {
+    this.productoEditar = producto;
+    this.modoCrear = false;
+    this.modalAbierto = true;
   }
 
-  buscarProductos(valor: string) {
-    // Aquí iría la lógica para buscar productos por nombre o SKU usando tu API
-    // Por ahora es solo un filtro local de ejemplo
-    this.productos = [
-      { nombre: 'Producto 1' },
-      { nombre: 'Producto 2' },
-      { nombre: 'Producto 3' }
-    ].filter(p => p.nombre.toLowerCase().includes(valor.toLowerCase()));
+  abrirModalCrear() {
+    this.productoEditar = null;
+    this.modoCrear = true;
+    this.modalAbierto = true;
+  }
+
+  cerrarModal() {
+    this.modalAbierto = false;
   }
 }

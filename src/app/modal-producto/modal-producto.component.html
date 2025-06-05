@@ -1,0 +1,14 @@
+<div class="modal">
+  <h2>{{ modoCrear ? 'Crear Producto' : 'Editar Producto' }}</h2>
+  <form (ngSubmit)="guardar()">
+    <label>Nombre: <input [(ngModel)]="nombre" name="nombre"></label>
+    <label>SKU: <input [(ngModel)]="sku" name="sku" [readonly]="!modoCrear"></label>
+    <label>Stock: <input type="number" [(ngModel)]="stock" name="stock"></label>
+    <label>Precio Venta: <input type="number" [(ngModel)]="precioVenta" name="precioVenta"></label>
+    <label>Descripción: <textarea [(ngModel)]="descripcion" name="descripcion"></textarea></label>
+    <label>DescripciónCorta <textarea [(ngModel)]="descripcionCorta" name="descripcionCorta"></textarea></label>
+    <label *ngIf="modoCrear">Imagen: <input type="file" (change)="onFileSelected($event)"></label>
+    <button type="submit">{{ modoCrear ? 'Crear' : 'Guardar' }}</button>
+    <button type="button" (click)="close.emit()">Cancelar</button>
+  </form>
+</div>
