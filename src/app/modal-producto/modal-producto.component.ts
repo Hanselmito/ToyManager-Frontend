@@ -31,9 +31,7 @@ export class ModalProductoComponent implements OnInit {
 
   constructor(
     private productoService: ProductoService,
-    private categoriaService: CategoriaService,
-    private productosUsuariosService: ProductosUsuariosService,
-    private productosCategoriaService: ProductosCategoriaService  
+    private categoriaService: CategoriaService  
   ) {}
 
   ngOnInit() {
@@ -56,62 +54,32 @@ export class ModalProductoComponent implements OnInit {
   error: string = '';
 
   guardar() {
-    const usuarioNif = Number(localStorage.getItem('usuarioNif') || 0);
-    const prod: any = {
+    const producto = {
       sku: this.sku,
       nombre: this.nombre,
       descripcion: this.descripcion,
       descripcion_corta: this.descripcionCorta,
       precio_venta: this.precioVenta,
       stock: this.stock,
+      categorias: [{ id: this.categoriaId }],
     };
-    if (this.categoriaId) {
-      prod.categoriaId = this.categoriaId;
+
+    if (!this.imagen) {
+      this.error = 'Selecciona una imagen';
+      return;
     }
 
-    if (this.modoCrear) {
-      if (!this.imagen) {
-        this.error = 'Selecciona una imagen';
-        return;
-      }
-      this.productoService.crearProducto(prod, this.imagen, usuarioNif)
-        .subscribe({
-          next: (productoCreado) => {
-            // 1. Asociar producto-usuario
-            this.productosUsuariosService.guardar({
-              usuarioNif: usuarioNif,
-              productoSku: this.sku
-            }).subscribe();
+    const usuarioNif = Number(localStorage.getItem('nif'));
 
-            // 2. Asociar producto-categoría si hay categoría
-            if (this.categoriaId) {
-              this.productosCategoriaService.guardar({
-                productoSku: this.sku,
-                categoriaId: this.categoriaId
-              }).subscribe();
-            }
-            this.error = '';
-            this.close.emit();
-          },
-          error: (err) => {
-            if (err.error && typeof err.error === 'string') {
-          this.error = err.error;
-        } else {
-          this.error = err?.error?.message || 'Error al crear el producto';
-        }
-          }
-        });
-    } else {
-    this.productoService.actualizarProducto(this.sku, prod)
+    this.productoService.crearProducto(producto, this.imagen, usuarioNif)
       .subscribe({
         next: () => {
           this.error = '';
           this.close.emit();
         },
         error: (err) => {
-          this.error = err?.error?.message || 'Error al actualizar el producto';
-        }
+            this.error = err.error?.error || 'Error al crear el producto';
+          }
       });
   }
-}
 }

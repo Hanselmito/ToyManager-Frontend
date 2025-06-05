@@ -49,7 +49,7 @@ export class RegisterComponent {
     this.http.post(`${environment.apiUrl}/api/usuario/register`, formData)
       .subscribe({
         next: res => {
-          this.router.navigate(['/menu']); // Redirige al menú
+          this.router.navigate(['/login']); // Redirige al menú
         },
         error: () => {
           this.error = 'Error al registrar usuario';

@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 @Injectable({ providedIn: 'root' })
 export class ProductoService {
   private baseUrl = 'http://localhost:8080/api/productos';
+  apiUrl: any;
 
   constructor(private http: HttpClient) {}
 
@@ -21,11 +22,12 @@ export class ProductoService {
   }
 
   crearProducto(producto: any, imagen: File, usuarioNif: number): Observable<any> {
-    const formData = new FormData();
-    formData.append('producto', JSON.stringify(producto));
-    formData.append('imagen', imagen);
-    formData.append('usuarioNif', usuarioNif.toString());
-    return this.http.post(`${this.baseUrl}/crear`, formData);
+  const formData = new FormData();
+  formData.append('producto', JSON.stringify(producto)); // El producto como string JSON
+  formData.append('imagen', imagen); // El archivo de imagen
+  formData.append('usuarioNif', usuarioNif.toString()); // NIF como string
+
+  return this.http.post('http://localhost:8080/api/productos/crear', formData);
   }
 
   actualizarProducto(sku: string, producto: any): Observable<any> {

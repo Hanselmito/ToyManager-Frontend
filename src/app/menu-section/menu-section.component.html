@@ -17,7 +17,7 @@
   </div>
   <ul>
     <li *ngFor="let item of items" (dblclick)="tipo === 'productos' ? productoDobleClick.emit(item) : null">
-      <span *ngIf="tipo === 'productos'">{{ item.nombre }} (SKU: {{ item.sku }})</span>
+      <span *ngIf="tipo === 'productos'">{{ item.nombre }} (SKU: {{ item.sku }}) {{item.stock}}</span>
       <span *ngIf="tipo === 'categorias'">{{ item.nombre }}</span>
       <span *ngIf="tipo === 'proveedores'">{{ item.nombre }} (CIF: {{ item.cif }})</span>
       <button (click)="eliminar(item)">Eliminar</button>
