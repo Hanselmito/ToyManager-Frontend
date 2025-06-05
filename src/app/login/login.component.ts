@@ -30,9 +30,17 @@ export class LoginComponent {
   if (this.loginForm.valid) {
     this.http.post(`${environment.apiUrl}/api/usuario/login`, this.loginForm.value)
       .subscribe({
-        next: res => {
-          localStorage.setItem('user', JSON.stringify(res));
-          this.router.navigate(['/menu']); // Redirige al menú
+        next: (res: any) => {
+          console.log('Login successful:', res);
+          localStorage.setItem('usuarios', JSON.stringify(res));
+          // Guarda el NIF (como string) y el nombre si existen en la respuesta
+          if (res && typeof res.nif === 'number') {
+            localStorage.setItem('nif', res.nif);
+          }
+          if (res && typeof res.nombre === 'string') {
+            localStorage.setItem('username', res.nombre);
+          }
+          this.router.navigate(['/menu']);
         },
         error: () => {
           this.error = 'Usuario o contraseña incorrectos';
