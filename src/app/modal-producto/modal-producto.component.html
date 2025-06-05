@@ -7,7 +7,15 @@
     <label>Precio Venta: <input type="number" [(ngModel)]="precioVenta" name="precioVenta"></label>
     <label>Descripción: <textarea [(ngModel)]="descripcion" name="descripcion"></textarea></label>
     <label>DescripciónCorta <textarea [(ngModel)]="descripcionCorta" name="descripcionCorta"></textarea></label>
+    <label>
+      Categoría:
+      <select [(ngModel)]="categoriaId" name="categoriaId">
+        <option [ngValue]="null">Sin categoría</option>
+        <option *ngFor="let cat of categorias" [ngValue]="cat.id">{{cat.nombre}}</option>
+      </select>
+    </label>
     <label *ngIf="modoCrear">Imagen: <input type="file" (change)="onFileSelected($event)"></label>
+    <div *ngIf="error" class="modal-error">{{ error }}</div>
     <button type="submit">{{ modoCrear ? 'Crear' : 'Guardar' }}</button>
     <button type="button" (click)="close.emit()">Cancelar</button>
   </form>
