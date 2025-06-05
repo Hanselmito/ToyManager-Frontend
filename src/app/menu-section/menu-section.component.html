@@ -1,6 +1,6 @@
 <div>
   <div *ngIf="tipo === 'productos'">
-    <input [(ngModel)]="busqueda" placeholder="Buscar producto...">
+    <input [(ngModel)]="busqueda" placeholder="Buscar producto..." (keyup.enter)="buscar()">
     <select [(ngModel)]="criterioBusqueda">
       <option value="nombre">Nombre</option>
       <option value="sku">SKU</option>
@@ -9,18 +9,163 @@
     <button (click)="crearProducto.emit()">Crear Producto</button>
   </div>
   <div *ngIf="tipo !== 'productos'">
-    <input [(ngModel)]="busqueda" [placeholder]="'Buscar ' + tipo + '...'">
+    <input [(ngModel)]="busqueda" [placeholder]="'Buscar ' + tipo + '...'" (keyup.enter)="buscar()">
     <button (click)="buscar()">Buscar</button>
     <button (click)="cargarItems()">Recargar todo</button>
     <button *ngIf="tipo === 'categorias'" (click)="crearProducto.emit()">Crear Categoría</button>
     <button *ngIf="tipo === 'proveedores'" (click)="crearProducto.emit()">Crear Proveedor</button>
   </div>
-  <ul>
-    <li *ngFor="let item of items" (dblclick)="tipo === 'productos' ? productoDobleClick.emit(item) : null">
-      <span *ngIf="tipo === 'productos'">{{ item.nombre }} (SKU: {{ item.sku }}) {{item.stock}}</span>
-      <span *ngIf="tipo === 'categorias'">{{ item.nombre }}</span>
-      <span *ngIf="tipo === 'proveedores'">{{ item.nombre }} (CIF: {{ item.cif }})</span>
-      <button (click)="eliminar(item)">Eliminar</button>
+
+  <!-- Lista de productos mejorada -->
+  <ul *ngIf="tipo === 'productos'" class="productos-lista">
+    <li *ngFor="let item of items"
+        [class.hovered]="item === productoHover"
+        (mouseenter)="productoHover = item"
+        (mouseleave)="productoHover = null"
+        (dblclick)="mostrarDetalle(item)">
+      <span class="sku">{{ item.sku }}</span>
+      <span class="nombre">{{ item.nombre }}</span>
+      <span class="stock">{{ item.stock }}</span>
+      <span class="precio">{{ item.precio_venta | currency:'EUR' }}</span>
+      <img *ngIf="item.imagenUrl" [src]="item.imagenUrl" alt="img" class="producto-img" />
+      <button (click)="eliminar(item); $event.stopPropagation()">Eliminar</button>
     </li>
   </ul>
+
+  <!-- Categorías -->
+<ul *ngIf="tipo === 'categorias'" class="categorias-lista">
+  <li *ngFor="let item of items"
+      [class.hovered]="item === productoHover"
+      (mouseenter)="productoHover = item"
+      (mouseleave)="productoHover = null"
+      (dblclick)="mostrarDetalle(item)">
+    <span class="nombre">{{ item.nombre }}</span>
+    <button (click)="eliminar(item); $event.stopPropagation()">Eliminar</button>
+  </li>
+</ul>
+<div *ngIf="productoDetalle && tipo === 'categorias'" class="producto-detalle-modal">
+  <h3>Detalle de la categoría</h3>
+  <div><b>ID:</b> {{ productoDetalle.id }}</div>
+  <div><b>Nombre:</b> {{ productoDetalle.nombre }}</div>
+  <button (click)="productoDetalle = null">Cerrar</button>
+</div>
+
+<!-- Proveedores -->
+<ul *ngIf="tipo === 'proveedores'" class="proveedores-lista">
+  <li *ngFor="let item of items"
+      [class.hovered]="item === productoHover"
+      (mouseenter)="productoHover = item"
+      (mouseleave)="productoHover = null"
+      (dblclick)="mostrarDetalle(item)">
+    <span class="nombre">{{ item.nombre }}</span>
+    <span class="cif">{{ item.cif }}</span>
+    <button (click)="eliminar(item); $event.stopPropagation()">Eliminar</button>
+  </li>
+</ul>
+<div *ngIf="productoDetalle && tipo === 'proveedores'" class="producto-detalle-modal">
+  <h3>Detalle del proveedor</h3>
+  <div><b>CIF:</b> {{ productoDetalle.cif }}</div>
+  <div><b>Nombre:</b> {{ productoDetalle.nombre }}</div>
+  <button (click)="productoDetalle = null">Cerrar</button>
+</div>
+
+<!-- Usuarios -->
+<ul *ngIf="tipo === 'usuarios'" class="usuarios-lista">
+  <li *ngFor="let item of items"
+      [class.hovered]="item === productoHover"
+      (mouseenter)="productoHover = item"
+      (mouseleave)="productoHover = null"
+      (dblclick)="mostrarDetalle(item)">
+    <span class="nif">{{ item.nif }}</span>
+    <span class="nombre">{{ item.nombre }}</span>
+    <span class="email">{{ item.email }}</span>
+    <button (click)="eliminar(item); $event.stopPropagation()">Eliminar</button>
+  </li>
+</ul>
+<div *ngIf="productoDetalle && tipo === 'usuarios'" class="producto-detalle-modal">
+  <h3>Detalle del usuario</h3>
+  <div><b>NIF:</b> {{ productoDetalle.nif }}</div>
+  <div><b>Nombre:</b> {{ productoDetalle.nombre }}</div>
+  <div><b>Email:</b> {{ productoDetalle.email }}</div>
+  <button (click)="productoDetalle = null">Cerrar</button>
+</div>
+
+<!-- Productos-Usuarios -->
+<ul *ngIf="tipo === 'productos-usuarios'" class="productos-usuarios-lista">
+  <li *ngFor="let item of items"
+      [class.hovered]="item === productoHover"
+      (mouseenter)="productoHover = item"
+      (mouseleave)="productoHover = null"
+      (dblclick)="mostrarDetalle(item)">
+    <span class="usuario-nif">{{ item.usuarioNif }}</span>
+    <span class="producto-sku">{{ item.productoSku }}</span>
+    <span class="producto-nombre">{{ item.productoNombre }}</span>
+    <button (click)="eliminar(item); $event.stopPropagation()">Eliminar</button>
+  </li>
+</ul>
+<div *ngIf="productoDetalle && tipo === 'productos-usuarios'" class="producto-detalle-modal">
+  <h3>Detalle producto-usuario</h3>
+  <div><b>Usuario NIF:</b> {{ productoDetalle.usuarioNif }}</div>
+  <div><b>Producto SKU:</b> {{ productoDetalle.productoSku }}</div>
+  <div><b>Producto Nombre:</b> {{ productoDetalle.productoNombre }}</div>
+  <button (click)="productoDetalle = null">Cerrar</button>
+</div>
+
+  <!-- Panel de detalle dinámico según tipo -->
+<div *ngIf="productoDetalle" class="producto-detalle-modal">
+  <ng-container [ngSwitch]="tipo">
+
+    <!-- Detalle Producto -->
+    <div *ngSwitchCase="'productos'">
+      <h3>Detalle del producto</h3>
+      <div><b>SKU:</b> {{ productoDetalle.sku }}</div>
+      <div><b>Nombre:</b> {{ productoDetalle.nombre }}</div>
+      <div><b>Stock:</b> {{ productoDetalle.stock }}</div>
+      <div><b>Precio venta:</b> {{ productoDetalle.precio_venta | currency:'EUR' }}</div>
+      <div><b>Descripción:</b> {{ productoDetalle.descripcion }}</div>
+      <div><b>Descripción corta:</b> {{ productoDetalle.descripcion_corta }}</div>
+      <div *ngIf="productoDetalle.imagenUrl">
+        <b>Imagen:</b><br>
+        <img [src]="productoDetalle.imagenUrl" alt="img" style="max-width:120px;max-height:120px;">
+      </div>
+      <button (click)="productoDobleClick.emit(productoDetalle)">Actualizar</button>
+      <button (click)="productoDetalle = null">Cerrar</button>
+    </div>
+
+    <!-- Detalle Categoría -->
+    <div *ngSwitchCase="'categorias'">
+      <h3>Detalle de la categoría</h3>
+      <div><b>ID:</b> {{ productoDetalle.id }}</div>
+      <div><b>Nombre:</b> {{ productoDetalle.nombre }}</div>
+      <button (click)="productoDetalle = null">Cerrar</button>
+    </div>
+
+    <!-- Detalle Proveedor -->
+    <div *ngSwitchCase="'proveedores'">
+      <h3>Detalle del proveedor</h3>
+      <div><b>CIF:</b> {{ productoDetalle.cif }}</div>
+      <div><b>Nombre:</b> {{ productoDetalle.nombre }}</div>
+      <button (click)="productoDetalle = null">Cerrar</button>
+    </div>
+
+    <!-- Detalle Usuario -->
+    <div *ngSwitchCase="'usuarios'">
+      <h3>Detalle del usuario</h3>
+      <div><b>NIF:</b> {{ productoDetalle.nif }}</div>
+      <div><b>Nombre:</b> {{ productoDetalle.nombre }}</div>
+      <div><b>Email:</b> {{ productoDetalle.email }}</div>
+      <button (click)="productoDetalle = null">Cerrar</button>
+    </div>
+
+    <!-- Detalle Producto-Usuario -->
+    <div *ngSwitchCase="'productos-usuarios'">
+      <h3>Detalle producto-usuario</h3>
+      <div><b>Usuario NIF:</b> {{ productoDetalle.usuarioNif }}</div>
+      <div><b>Producto SKU:</b> {{ productoDetalle.productoSku }}</div>
+      <div><b>Producto Nombre:</b> {{ productoDetalle.productoNombre }}</div>
+      <button (click)="productoDetalle = null">Cerrar</button>
+    </div>
+
+  </ng-container>
+</div>
 </div>

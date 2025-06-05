@@ -1,0 +1,14 @@
+<input [(ngModel)]="filtro" placeholder="Buscar producto..." />
+<select [(ngModel)]="filtroTipo">
+  <option value="nombre">Nombre</option>
+  <option value="sku">SKU</option>
+</select>
+<button (click)="buscar()">Buscar</button>
+<button (click)="cargarTodos()">Ver Todos</button>
+<button (click)="abrirModalCrear()">Crear Producto</button>
+<ul>
+  <li *ngFor="let p of productos">
+    {{p.nombre}} (SKU: {{p.sku}}) {{p.stock}}
+    <button (click)="eliminar(p.sku)">Eliminar</button>
+  </li>
+</ul>
