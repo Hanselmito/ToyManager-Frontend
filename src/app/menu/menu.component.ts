@@ -17,15 +17,25 @@ export class MenuComponent implements OnInit {
   modalAbierto = false;
   productoEditar: any = null;
   modoCrear = false;
+  usuarioEmail: any;
+  esEmpleado: any;
+  esAdmin: any;
 
   constructor(private router: Router) {}
 
   ngOnInit() {
-    if (typeof window !== 'undefined' && window.localStorage) {
-      this.username = localStorage.getItem('username') || '';
-      
-    }
+  if (typeof window !== 'undefined' && window.localStorage) {
+    this.username = localStorage.getItem('username') || '';
+    this.usuarioEmail = localStorage.getItem('usuarios') ? JSON.parse(localStorage.getItem('usuarios')!).email : '';
+    this.esEmpleado = this.usuarioEmail.endsWith('@empleado.com');
+    this.esAdmin = this.usuarioEmail.endsWith('@admin.com');
+  } else {
+    this.username = '';
+    this.usuarioEmail = '';
+    this.esEmpleado = false;
+    this.esAdmin = false;
   }
+}
 
   seleccionar(tipo: 'productos' | 'categorias' | 'proveedores') {
     this.tipoSeleccionado = tipo;

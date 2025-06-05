@@ -11,10 +11,18 @@
 
   <!-- Menú lateral -->
   <nav class="menu-sidebar">
-    <button class="menu-sidebar-btn" [class.active]="tipoSeleccionado==='productos'" (click)="seleccionar('productos')">Productos</button>
-    <button class="menu-sidebar-btn" [class.active]="tipoSeleccionado==='categorias'" (click)="seleccionar('categorias')">Categorías</button>
-    <button class="menu-sidebar-btn" [class.active]="tipoSeleccionado==='proveedores'" (click)="seleccionar('proveedores')">Proveedores</button>
-  </nav>
+  <button class="menu-sidebar-btn" [class.active]="tipoSeleccionado==='productos'" (click)="seleccionar('productos')">Productos</button>
+  <button class="menu-sidebar-btn" [class.active]="tipoSeleccionado==='categorias'" (click)="seleccionar('categorias')">Categorías</button>
+  <button class="menu-sidebar-btn" [class.active]="tipoSeleccionado==='proveedores'" (click)="seleccionar('proveedores')">Proveedores</button>
+  <ul>
+    <li><a routerLink="/productos">Productos</a></li>
+    <li><a routerLink="/categorias">Categorías</a></li>
+    <li><a routerLink="/proveedores">Proveedores</a></li>
+    <li *ngIf="esAdmin"><a routerLink="/usuarios">Usuarios</a></li>
+    <li *ngIf="esAdmin"><a routerLink="/productos-usuarios">Productos Usuarios</a></li>
+    <li>{{ username }}</li>
+  </ul>
+</nav>
 
   <!-- Contenido principal -->
   <main class="menu-content">

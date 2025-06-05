@@ -11,6 +11,7 @@ import { UsuarioService } from './services/usuario.service';
 import { ProductosUsuariosService } from './services/productos-usuarios.service';
 import { ProductosCategoriaService } from './services/productos-categoria.service';
 import { ProductosProveedoresService } from './services/productos-proveedores.service';
+import { ProductosComponent } from './productos/productos.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent, pathMatch: 'full' },
@@ -19,6 +20,7 @@ export const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'menu', component: MenuComponent },
   { path: 'menu/:tipo', component: MenuSectionComponent },
+  { path: 'productos', component: ProductosComponent, resolve: { productos: ProductoService } },
   { path: 'usuario', component: MenuComponent, resolve: { usuario: UsuarioService } },
   { path: 'productos', component: MenuSectionComponent, data: { tipo: 'productos' }, resolve: { productos: ProductoService } },
   { path: 'categorias', component: MenuSectionComponent, data: { tipo: 'categorias' }, resolve: { categorias: CategoriaService } },

@@ -1,0 +1,11 @@
+<div class="modal">
+  <h2>{{ modoCrear ? 'Crear Categoría' : 'Editar Categoría' }}</h2>
+  <form (ngSubmit)="guardar()">
+    <label>Nombre:
+      <input [(ngModel)]="nombre" name="nombre" required>
+    </label>
+    <div *ngIf="error" class="modal-error">{{ error }}</div>
+    <button type="submit">{{ modoCrear ? 'Crear' : 'Guardar' }}</button>
+    <button type="button" (click)="close.emit()">Cancelar</button>
+  </form>
+</div>
