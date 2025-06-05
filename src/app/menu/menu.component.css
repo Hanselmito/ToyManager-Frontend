@@ -12,120 +12,169 @@
   padding: 0 32px;
   height: 64px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  border-radius: 0 0 12px 12px;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10;
 }
 
 .menu-logo {
-  width: 40px;
-  margin-right: 16px;
+  width: 44px;
+  height: 44px;
+  margin-right: 18px;
 }
 
 .menu-title {
   font-size: 2rem;
   font-weight: bold;
   font-style: italic;
-  color: #2e7d32;
+  color: #1976d2;
   text-decoration: underline;
+  margin-right: auto;
+  cursor: pointer;
+  user-select: none;
 }
 
-.menu-spacer {
-  flex: 1;
+.menu-user {
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
 .menu-username {
   font-size: 1.1rem;
   color: #1976d2;
-  margin-right: 16px;
+  font-weight: bold;
 }
 
 .menu-avatar {
-  width: 40px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
+  object-fit: cover;
+  background: #c5e1a5;
   border: 2px solid #1976d2;
 }
 
-.menu-body {
-  display: flex;
-  flex: 1;
-}
-
 .menu-sidebar {
-  width: 220px;
-  background: #c5e1a5;
-  padding: 32px 0 0 0;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: stretch;
+  background: #fff;
+  padding: 32px 0 0 0;
+  width: 180px;
+  min-width: 160px;
   box-shadow: 2px 0 8px rgba(0,0,0,0.04);
+  border-radius: 0 16px 16px 0;
+  position: fixed;
+  top: 64px;
+  left: 0;
+  height: calc(100vh - 64px);
+  z-index: 5;
 }
 
-.menu-section {
-  width: 100%;
-  margin-bottom: 32px;
-}
-
-.menu-section-title {
-  display: block;
-  font-size: 1.2rem;
-  font-weight: bold;
-  color: #1b5e20;
-  margin-bottom: 16px;
-  text-align: center;
-}
-
-.menu-item {
-  width: 90%;
-  padding: 12px;
-  margin: 8px auto;
+.menu-sidebar-btn {
   background: #2e7d32;
-  color: #c5e1a5;
+  color: #fff;
   border: none;
-  border-radius: 6px;
-  font-size: 1rem;
+  border-radius: 8px;
+  padding: 18px 0;
+  margin: 18px 24px;
+  font-size: 1.15rem;
   font-weight: bold;
   cursor: pointer;
-  transition: background 0.2s;
-  display: block;
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 8px rgba(44, 62, 80, 0.04);
+  outline: none;
 }
-
-.menu-item:hover {
+.menu-sidebar-btn.active,
+.menu-sidebar-btn:hover {
   background: #1976d2;
   color: #fff;
+  box-shadow: 0 4px 16px rgba(25, 118, 210, 0.08);
 }
 
 .menu-content {
-  flex: 1;
-  padding: 40px;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-}
-
-.menu-list-card {
-  background: #fff;
-  border-radius: 16px;
-  box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+  margin-left: 200px;
+  margin-top: 80px;
   padding: 32px 40px;
-  min-width: 400px;
+  width: 100%;
+  max-width: 1100px;
 }
 
-.menu-list-card h2 {
-  color: #1976d2;
-  margin-bottom: 24px;
-  text-align: center;
+.menu-section-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 18px;
+  max-width: 700px;
 }
 
-.product-list {
+.menu-section-controls input,
+.menu-section-controls select {
+  padding: 8px 10px;
+  border: 2px solid #c5e1a5;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+.menu-section-controls button {
+  background: #2e7d32;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 8px 18px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.menu-section-controls button:hover {
+  background: #1976d2;
+}
+
+ul {
   list-style: none;
   padding: 0;
   margin: 0;
+  max-width: 700px;
 }
 
-.product-list li {
-  padding: 12px 0;
-  border-bottom: 1px solid #e0e0e0;
-  font-size: 1.1rem;
+ul li {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  margin-bottom: 12px;
+  padding: 16px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 1.08rem;
 }
 
-.product-list li:last-child {
-  border-bottom: none;
+ul li:last-child {
+  margin-bottom: 0;
+}
+
+ul li button {
+  background: #d32f2f;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 6px 16px;
+  font-size: 0.98rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+ul li button:hover {
+  background: #b71c1c;
+}
+
+body, .menu-root {
+  background: #f7f9fa;
 }

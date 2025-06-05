@@ -1,81 +1,35 @@
 <div class="menu-root">
+  <!-- Barra superior -->
   <header class="menu-header">
-    <img src="https://cdn-icons-png.flaticon.com/512/3064/3064197.png" class="menu-logo" alt="logo" />
-    <span class="menu-title">ToyManager</span>
-    <div class="menu-spacer"></div>
-    <span class="menu-username">{{ username }}</span>
-    <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" class="menu-avatar" alt="avatar" />
+    <img class="menu-logo" src="https://cdn-icons-png.flaticon.com/512/3064/3064197.png" alt="Logo" />
+    <span class="menu-title" (click)="seleccionar('productos')">ToyManager</span>
+    <div class="menu-user">
+      <span class="menu-username">{{ username }}</span>
+      <img class="menu-avatar" src="https://ui-avatars.com/api/?name={{username}}" alt="avatar" />
+    </div>
   </header>
-  <div class="menu-body">
-    <nav class="menu-sidebar">
-      <!-- Productos -->
-      <div class="menu-section">
-        <button class="menu-section-title" (click)="toggleMenu('productos')">
-          Productos
-        </button>
-        <div *ngIf="openMenu === 'productos'" class="submenu">
-          <button class="menu-item" (click)="setView('listarProductos')">Listar</button>
-          <button class="menu-item" (click)="setView('crearProducto')">Crear</button>
-          <button class="menu-item" (click)="setView('actualizarProducto')">Actualizar</button>
-          <button class="menu-item" (click)="setView('eliminarProducto')">Eliminar</button>
-        </div>
-      </div>
-      <!-- Categorías -->
-      <div class="menu-section">
-        <button class="menu-section-title" (click)="toggleMenu('categorias')">
-          Categorías
-        </button>
-        <div *ngIf="openMenu === 'categorias'" class="submenu">
-          <button class="menu-item" (click)="setView('listarCategorias')">Listar</button>
-          <button class="menu-item" (click)="setView('crearCategoria')">Crear</button>
-          <button class="menu-item" (click)="setView('actualizarCategoria')">Actualizar</button>
-          <button class="menu-item" (click)="setView('eliminarCategoria')">Eliminar</button>
-        </div>
-      </div>
-      <!-- Proveedores -->
-      <div class="menu-section">
-        <button class="menu-section-title" (click)="toggleMenu('proveedores')">
-          Proveedores
-        </button>
-        <div *ngIf="openMenu === 'proveedores'" class="submenu">
-          <button class="menu-item" (click)="setView('listarProveedores')">Listar</button>
-          <button class="menu-item" (click)="setView('crearProveedor')">Crear</button>
-          <button class="menu-item" (click)="setView('actualizarProveedor')">Actualizar</button>
-          <button class="menu-item" (click)="setView('eliminarProveedor')">Eliminar</button>
-        </div>
-      </div>
-    </nav>
-    <main class="menu-content">
-      <div class="menu-list-card">
-        <ng-container [ngSwitch]="currentView">
-          <!-- Productos -->
-          <div *ngSwitchCase="'listarProductos'">
-            <h2>Lista de Productos</h2>
-            <!-- Aquí puedes poner un buscador y la lista según el método de búsqueda -->
-            <!-- Ejemplo de buscador por nombre o SKU -->
-            <input type="text" placeholder="Buscar por nombre o SKU" (input)="1" />
-            <ul class="product-list">
-              <li *ngFor="let producto of productos">{{ producto.nombre }}</li>
-            </ul>
-          </div>
-          <div *ngSwitchCase="'crearProducto'"><h2>Crear Producto</h2></div>
-          <div *ngSwitchCase="'actualizarProducto'"><h2>Actualizar Producto</h2></div>
-          <div *ngSwitchCase="'eliminarProducto'"><h2>Eliminar Producto</h2></div>
-          <!-- Categorías -->
-          <div *ngSwitchCase="'listarCategorias'"><h2>Lista de Categorías</h2></div>
-          <div *ngSwitchCase="'crearCategoria'"><h2>Crear Categoría</h2></div>
-          <div *ngSwitchCase="'actualizarCategoria'"><h2>Actualizar Categoría</h2></div>
-          <div *ngSwitchCase="'eliminarCategoria'"><h2>Eliminar Categoría</h2></div>
-          <!-- Proveedores -->
-          <div *ngSwitchCase="'listarProveedores'"><h2>Lista de Proveedores</h2></div>
-          <div *ngSwitchCase="'crearProveedor'"><h2>Crear Proveedor</h2></div>
-          <div *ngSwitchCase="'actualizarProveedor'"><h2>Actualizar Proveedor</h2></div>
-          <div *ngSwitchCase="'eliminarProveedor'"><h2>Eliminar Proveedor</h2></div>
-          <div *ngSwitchDefault>
-            <h2>Bienvenido al menú</h2>
-          </div>
-        </ng-container>
-      </div>
-    </main>
-  </div>
+
+  <!-- Menú lateral -->
+  <nav class="menu-sidebar">
+    <button class="menu-sidebar-btn" [class.active]="tipoSeleccionado==='productos'" (click)="seleccionar('productos')">Productos</button>
+    <button class="menu-sidebar-btn" [class.active]="tipoSeleccionado==='categorias'" (click)="seleccionar('categorias')">Categorías</button>
+    <button class="menu-sidebar-btn" [class.active]="tipoSeleccionado==='proveedores'" (click)="seleccionar('proveedores')">Proveedores</button>
+  </nav>
+
+  <!-- Contenido principal -->
+  <main class="menu-content">
+    <app-menu-section
+      [tipo]="tipoSeleccionado"
+      (productoDobleClick)="abrirModalEdicion($event)"
+      (crearProducto)="abrirModalCrear()">
+    </app-menu-section>
+  </main>
+
+  <!-- Modal -->
+  <app-modal-producto
+    *ngIf="modalAbierto"
+    [producto]="productoEditar"
+    [modoCrear]="modoCrear"
+    (close)="cerrarModal()">
+  </app-modal-producto>
 </div>

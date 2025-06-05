@@ -1,0 +1,23 @@
+.menu-dropdown {
+  position: relative;
+  display: inline-block;
+}
+.menu-dropdown-content {
+  display: block;
+  position: absolute;
+  background: #fff;
+  min-width: 140px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  z-index: 1;
+}
+.menu-dropdown-content button {
+  width: 100%;
+  padding: 8px 16px;
+  border: none;
+  background: none;
+  text-align: left;
+  cursor: pointer;
+}
+.menu-dropdown-content button:hover {
+  background: #e8f5e9;
+}
