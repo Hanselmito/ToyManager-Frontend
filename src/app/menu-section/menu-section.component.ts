@@ -36,7 +36,6 @@ export class MenuSectionComponent implements OnInit, OnChanges {
 
   mostrarDetalle(item: any) {
     this.productoDetalle = item;
-    this.productoHover = null; // Limpiar hover al mostrar detalle
   }
   
   ngOnInit() {
@@ -46,6 +45,7 @@ export class MenuSectionComponent implements OnInit, OnChanges {
   ngOnChanges() {
     this.cargarItems();
   }
+
 
   cargarItems() {
     if (this.tipo === 'productos') {
@@ -57,8 +57,7 @@ export class MenuSectionComponent implements OnInit, OnChanges {
     } else if (this.tipo === 'usuarios') {
       this.usuarioService.getAllUsers().subscribe(data => this.items = data);
     } else if (this.tipo === 'productos-usuario') {
-      const idUsuario = 2;
-      this.productosUsuariosService.obtenerPorUsuario(idUsuario).subscribe(data => this.items = data);
+      this.productosUsuariosService.getAllProductosUsuarios().subscribe(data => this.items = data);
     } else if (this.tipo === 'productos-proveedores') {
       this.productosProveedoresService.getAllProductosProveedores().subscribe(data => this.items = data);
     }
@@ -66,15 +65,23 @@ export class MenuSectionComponent implements OnInit, OnChanges {
 
   buscar() {
     if (this.tipo === 'productos') {
-      if (this.criterioBusqueda === 'nombre') {
-        this.productoService.buscarPorNombre(this.busqueda).subscribe(data => this.items = data);
-      }else{
-        this.productoService.buscarPorSku(this.busqueda).subscribe(data => this.items = [data]);
-      }
+    if (this.criterioBusqueda === 'nombre') {
+      this.productoService.buscarPorNombre(this.busqueda).subscribe(data => this.items = data);
+    } else if (this.criterioBusqueda === 'sku') {
+      this.productoService.buscarPorSku(this.busqueda).subscribe(data => {
+        this.items = data ? [data] : [];
+      });
+    }
     } else if (this.tipo === 'categorias') {
       this.categoriaService.buscarPorNombre(this.busqueda).subscribe(data => this.items = data);
     } else if (this.tipo === 'proveedores') {
       this.proveedorService.buscarPorNombre(this.busqueda).subscribe(data => this.items = data);
+    } else if (this.tipo === 'usuarios') {
+      this.usuarioService.getUserByEmail(this.busqueda).subscribe(data => {
+        this.items = data ? [data] : [];
+      });
+    } else if (this.tipo === 'productos-proveedores'){
+      this.productosProveedoresService.obtenerPorProductoSku(this.busqueda).subscribe(data => this.items = data);
     }
   }
 

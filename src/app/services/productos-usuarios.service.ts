@@ -24,8 +24,13 @@ export class ProductosUsuariosService {
   }
 
   // Elimina un producto asociado a un usuario usando nif y sku
-eliminar(usuarioNif: string, productoSku: string): Observable<Object> {
-  const body = { usuarioNif, productoSku };
-  return this.http.request('delete', `${this.baseUrl}/eliminar`, { body });
-}
+  eliminar(usuarioNif: string, productoSku: string): Observable<Object> {
+    const body = { usuarioNif, productoSku };
+    return this.http.request('delete', `${this.baseUrl}/eliminar`, { body });
+  }
+
+  // Obtener todos los productos asociados a todos los usuarios
+  getAllProductosUsuarios(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/todos`);
+  }
 }
