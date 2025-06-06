@@ -1,0 +1,15 @@
+<div class="modal">
+  <h2>{{ modoCrear ? 'Crear Producto Usuario' : 'Editar Producto Usuario' }}</h2>
+  <form (ngSubmit)="guardar()">
+    <label>NIF Usuario: <input [(ngModel)]="usuarioNif" name="usuarioNif"></label>
+    <label>SKU Producto: <input [(ngModel)]="productoSku" name="productoSku"></label>
+    <label>Nombre Producto: <input [(ngModel)]="nombreProducto" name="nombreProducto"></label>
+    <label>Descripción: <textarea [(ngModel)]="descripcion" name="descripcion"></textarea></label>
+    <label>Descripción Corta: <textarea [(ngModel)]="descripcionCorta" name="descripcionCorta"></textarea></label>
+    <label>Precio Venta: <input type="number" [(ngModel)]="precioVenta" name="precioVenta"></label>
+    <label>Stock: <input type="number" [(ngModel)]="stock" name="stock"></label>
+    <div *ngIf="error" class="modal-error">{{ error }}</div>
+    <button type="submit">{{ modoCrear ? 'Crear' : 'Guardar' }}</button>
+    <button type="button" (click)="close.emit()">Cancelar</button>
+  </form>
+</div>

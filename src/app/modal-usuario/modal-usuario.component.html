@@ -1,0 +1,18 @@
+<div class="modal">
+  <h2>Actualizar Usuario</h2>
+  <form (ngSubmit)="actualizar()">
+    <label>NIF: <input [(ngModel)]="nif" name="nif" readonly></label>
+    <label>Nombre: <input [(ngModel)]="nombre" name="nombre"></label>
+    <label>Email: <input [(ngModel)]="email" name="email"></label>
+    <label>Rol:
+      <select [(ngModel)]="rol" name="rol">
+        <option value="admin">Admin</option>
+        <option value="empleado">Empleado</option>
+      </select>
+    </label>
+    <label>Imagen: <input type="file" (change)="onFileSelected($event)"></label>
+    <div *ngIf="error" class="modal-error">{{ error }}</div>
+    <button type="submit">Guardar Cambios</button>
+    <button type="button" (click)="close.emit()">Cancelar</button>
+  </form>
+</div>

@@ -16,36 +16,35 @@ export class ModalCategoriaComponent implements OnInit {
   @Input() modoCrear: boolean = false;
   @Output() close = new EventEmitter<void>();
 
+  id = 0;
   nombre = '';
+  categoriaPadreId: number | null = 0;
   error = '';
 
   constructor(private categoriaService: CategoriaService) {}
 
   ngOnInit() {
     if (this.categoria) {
+      this.id = this.categoria.id;
       this.nombre = this.categoria.nombre || '';
+      this.categoriaPadreId = this.categoria.categoria_padre_id;
     }
   }
 
   guardar() {
-    if (!this.nombre) {
-      this.error = 'Nombre requerido';
-      return;
-    }
-    const categoria = { nombre: this.nombre };
-    if (this.modoCrear) {
-      this.categoriaService.crearCategoria(categoria).subscribe({
-        next: () => {
-          this.error = '';
-          this.close.emit();
-        },
-        error: () => {
-          this.error = 'Error al crear categoría';
-        }
-      });
-    } else {
-      // Aquí podrías implementar la edición si tienes endpoint
+  const categoria = {
+    id: this.id,
+    nombre: this.nombre,
+    categoria_padre_id: this.categoriaPadreId ? this.categoriaPadreId : null
+  };
+  this.categoriaService.crearCategoria(categoria).subscribe({
+    next: () => {
+      this.error = '';
       this.close.emit();
+    },
+    error: (err) => {
+      this.error = err.error?.error || 'Error al crear la categoría';
     }
-  }
+  });
+}
 }

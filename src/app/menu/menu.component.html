@@ -14,14 +14,9 @@
   <button class="menu-sidebar-btn" [class.active]="tipoSeleccionado==='productos'" (click)="seleccionar('productos')">Productos</button>
   <button class="menu-sidebar-btn" [class.active]="tipoSeleccionado==='categorias'" (click)="seleccionar('categorias')">Categorías</button>
   <button class="menu-sidebar-btn" [class.active]="tipoSeleccionado==='proveedores'" (click)="seleccionar('proveedores')">Proveedores</button>
-  <ul>
-    <li><a routerLink="/productos">Productos</a></li>
-    <li><a routerLink="/categorias">Categorías</a></li>
-    <li><a routerLink="/proveedores">Proveedores</a></li>
-    <li *ngIf="esAdmin"><a routerLink="/usuarios">Usuarios</a></li>
-    <li *ngIf="esAdmin"><a routerLink="/productos-usuarios">Productos Usuarios</a></li>
-    <li>{{ username }}</li>
-  </ul>
+  <button *ngIf="esAdmin" class="menu-sidebar-btn" [class.active]="tipoSeleccionado==='usuarios'" (click)="seleccionar('usuarios')">Usuarios</button>
+  <button *ngIf="esAdmin" class="menu-sidebar-btn" [class.active]="tipoSeleccionado==='productos-usuario'" (click)="seleccionar('productos-usuario')">Productos Usuario</button>
+  <button *ngIf="esAdmin" class="menu-sidebar-btn" [class.active]="tipoSeleccionado==='productos-proveedores'" (click)="seleccionar('productos-proveedores')">Productos Proveedores</button>
 </nav>
 
   <!-- Contenido principal -->
@@ -33,11 +28,46 @@
     </app-menu-section>
   </main>
 
-  <!-- Modal -->
-  <app-modal-producto
-    *ngIf="modalAbierto"
-    [producto]="productoEditar"
+  <!-- Modal dinámico según sección -->
+<app-modal-producto
+  *ngIf="modalAbierto && tipoSeleccionado === 'productos'"
+  [producto]="productoEditar"
+  [modoCrear]="modoCrear"
+  (close)="cerrarModal()">
+</app-modal-producto>
+
+<app-modal-categoria
+  *ngIf="modalAbierto && tipoSeleccionado === 'categorias'"
+  [categoria]="productoEditar"
+  [modoCrear]="modoCrear"
+  (close)="cerrarModal()">
+</app-modal-categoria>
+
+<app-modal-proveedor
+  *ngIf="modalAbierto && tipoSeleccionado === 'proveedores'"
+  [proveedor]="productoEditar"
+  [modoCrear]="modoCrear"
+  (close)="cerrarModal()">
+</app-modal-proveedor>
+
+<app-modal-usuario
+  *ngIf="modalAbierto && tipoSeleccionado === 'usuarios'"
+  [usuario]="productoEditar"
+  (close)="cerrarModal()">
+</app-modal-usuario>
+
+<app-modal-productos-usuario
+  *ngIf="modalAbierto && tipoSeleccionado === 'productos-usuario'"
+  [productoUsuario]="productoEditar"
+  [modoCrear]="modoCrear"
+  (close)="cerrarModal()">
+</app-modal-productos-usuario>
+
+  <app-modal-productos-proveedores
+    *ngIf="modalAbierto && tipoSeleccionado === 'productos-proveedores'"
+    [productosProveedores]="productoEditar"
     [modoCrear]="modoCrear"
     (close)="cerrarModal()">
-  </app-modal-producto>
+  </app-modal-productos-proveedores>
+
 </div>
