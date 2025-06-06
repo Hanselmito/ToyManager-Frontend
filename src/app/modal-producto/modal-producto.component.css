@@ -1,85 +1,174 @@
 .modal {
   position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(0,0,0,0.35);
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 1000;
   overflow: auto;
+  backdrop-filter: blur(10px);
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .modal form {
-  background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 4px 24px rgba(0,0,0,0.12);
-  padding: 32px 28px;
-  min-width: 340px;
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+  border-radius: 20px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  padding: 40px 36px;
+  min-width: 400px;
   max-width: 95vw;
   max-height: 90vh;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 20px;
   overflow-y: auto;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(20px);
+  animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .modal h2 {
-  margin-bottom: 12px;
-  color: #2e7d32;
+  margin-bottom: 16px;
+  color: #667eea;
   text-align: center;
+  font-size: 1.8rem;
+  font-weight: 700;
+  border-bottom: 2px solid #e3f2fd;
+  padding-bottom: 12px;
 }
 
 .modal label {
-  font-weight: 500;
-  color: #1b5e20;
+  font-weight: 600;
+  color: #2c3e50;
   display: flex;
   flex-direction: column;
-  font-size: 1rem;
-  margin-bottom: 4px;
+  font-size: 1.1rem;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
-.modal input, .modal textarea, .modal select {
-  margin-top: 4px;
-  padding: 8px;
-  border: 2px solid #c5e1a5;
-  border-radius: 5px;
-  font-size: 1rem;
+.modal input,
+.modal textarea,
+.modal select {
+  margin-top: 8px;
+  padding: 14px 16px;
+  border: 2px solid #e3f2fd;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  transition: all 0.3s ease;
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.modal input:focus,
+.modal textarea:focus,
+.modal select:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  transform: translateY(-1px);
 }
 
 .modal textarea {
   resize: vertical;
-  min-height: 60px;
+  min-height: 80px;
+  font-family: inherit;
 }
 
 .modal button {
-  margin-top: 8px;
-  padding: 10px 0;
+  margin-top: 12px;
+  padding: 16px 0;
   border: none;
-  border-radius: 5px;
-  background: #2e7d32;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: #fff;
-  font-weight: bold;
-  font-size: 1rem;
+  font-weight: 700;
+  font-size: 1.1rem;
   cursor: pointer;
-  transition: background 0.2s;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 .modal button[type="button"] {
-  background: #bbb;
+  background: linear-gradient(135deg, #95a5a6 0%, #7f8c8d 100%);
   color: #fff;
-  margin-left: 8px;
+  margin-left: 0;
+  margin-top: 8px;
+  box-shadow: 0 4px 15px rgba(149, 165, 166, 0.3);
 }
 
 .modal button:hover:not([type="button"]) {
-  background: #1976d2;
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(79, 172, 254, 0.5);
+}
+
+.modal button[type="button"]:hover {
+  background: linear-gradient(135deg, #7f8c8d 0%, #95a5a6 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(127, 140, 141, 0.4);
 }
 
 .modal-error {
-  color: #d32f2f;
-  background: #ffebee;
-  border: 1px solid #d32f2f;
-  border-radius: 5px;
-  padding: 8px 12px;
-  margin-bottom: 10px;
+  color: #e74c3c;
+  background: rgba(231, 76, 60, 0.1);
+  border: 1px solid rgba(231, 76, 60, 0.3);
+  border-radius: 12px;
+  padding: 12px 16px;
+  margin-bottom: 12px;
   text-align: center;
+  font-weight: 600;
+  animation: shake 0.5s ease;
+}
+
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px);
+  }
+  75% {
+    transform: translateX(5px);
+  }
+}
+
+/* Mejoras para inputs de archivo */
+.modal input[type="file"] {
+  padding: 12px;
+  cursor: pointer;
+  background: rgba(102, 126, 234, 0.05);
+  border: 2px dashed #667eea;
+}
+
+.modal input[type="file"]:hover {
+  background: rgba(102, 126, 234, 0.1);
+  border-color: #764ba2;
 }
