@@ -101,11 +101,11 @@
       (mouseleave)="productoHover = null"
       (dblclick)="mostrarDetalle(item)">
     <span class="usuario_nif">{{ item.usuarioNif }}</span>
-    <span class="producto_sku">{{ item.productoSku }}</span>
-    <span class="nombre_producto">{{ item.productoNombre }}</span>
-    <span class="stock">{{ item.stock }}</span>
-    <span class="precio_venta">{{ item.precio_venta | currency:'EUR' }}</span>
-    <img *ngIf="item.imagenUrl" [src]="item.imagenUrl" alt="img" class="producto-img" />
+    <span class="producto_sku">{{ item.producto?.sku }}</span>
+    <span class="nombre_producto">{{ item.producto?.nombre }}</span>
+    <span class="stock">{{ item.producto?.stock }}</span>
+    <span class="precio_venta">{{ item.producto?.precio_venta | currency:'EUR' }}</span>
+    <img *ngIf="item.producto?.imagenUrl" [src]="item.producto.imagenUrl" alt="img" class="producto-img" />
     <button (click)="eliminar(item); $event.stopPropagation()">Eliminar</button>
   </li>
 </ul>
@@ -133,9 +133,7 @@
 <div *ngIf="productoDetalle && tipo === 'productos-proveedores'" class="producto-detalle-modal">
   <h3>Detalle producto-proveedor</h3>
   <div><b>Producto SKU:</b> {{ productoDetalle.id.productoSku }}</div>
-  <span></span>
   <div><b>Proveedor CIF:</b> {{ productoDetalle.id.proveedorCif }}</div>
-  <span></span>
   <div><b>Precio Compra:</b> {{ productoDetalle.precioCompra | currency:'EUR' }}</div>
   <button (click)="productoDetalle = null">Cerrar</button>
 </div>
@@ -199,9 +197,7 @@
     <div *ngSwitchCase="'productos-proveedores'">
       <h3>Detalle producto-proveedor</h3>
       <div><b>Producto SKU:</b> {{ productoDetalle.id.productoSku }}</div>
-      <span></span>
       <div><b>Proveedor CIF:</b> {{ productoDetalle.id.proveedorCif }}</div>
-      <span></span>
       <div><b>Precio Compra:</b> {{ productoDetalle.precioCompra | currency:'EUR' }}</div>
       <button (click)="productoDetalle = null">Cerrar</button>
     </div>
