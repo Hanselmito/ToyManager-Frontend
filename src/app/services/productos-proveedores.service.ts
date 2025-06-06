@@ -37,4 +37,8 @@ export class ProductosProveedoresService {
   obtenerPorProveedorCif(cif: string): Observable<any[]> {
     return this.http.get<any[]>(`${this.baseUrl}/proveedor/${cif}`);
   }
+
+  getAllProductosProveedores(): Observable<any> {
+    return this.http.get(`${this.baseUrl}/todos`);
+  }
 }

@@ -1,8 +1,10 @@
 <div class="modal">
   <h2>{{ modoCrear ? 'Crear Categoría' : 'Editar Categoría' }}</h2>
   <form (ngSubmit)="guardar()">
-    <label>Nombre:
-      <input [(ngModel)]="nombre" name="nombre" required>
+    <label>ID: <input type="number" [(ngModel)]="id" name="id"></label>
+    <label>Nombre: <input [(ngModel)]="nombre" name="nombre"></label>
+    <label>ID Categoría Padre (opcional): 
+      <input type="number" [(ngModel)]="categoriaPadreId" name="categoriaPadreId" [attr.min]="1">
     </label>
     <div *ngIf="error" class="modal-error">{{ error }}</div>
     <button type="submit">{{ modoCrear ? 'Crear' : 'Guardar' }}</button>

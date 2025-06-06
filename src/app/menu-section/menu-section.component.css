@@ -35,12 +35,14 @@
 .categorias-lista li,
 .proveedores-lista li,
 .usuarios-lista li,
-.productos-usuarios-lista li {
+.productos-usuarios-lista li, 
+.productos-proveedores-lista li {
   display: flex;
   align-items: center;
   gap: 18px;
   padding: 12px 8px;
   transition: background 0.2s;
+  margin-right: 8px;
 }
 .categorias-lista li.hovered,
 .proveedores-lista li.hovered,

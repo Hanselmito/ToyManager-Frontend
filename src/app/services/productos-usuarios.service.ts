@@ -23,8 +23,9 @@ export class ProductosUsuariosService {
     return this.http.get<any>(`${this.baseUrl}/usuario/${idUsuario}/producto/${sku}`);
   }
 
-  // Elimina un producto asociado a un usuario (por id de ProductosUsuario, debe ir en el body)
-  eliminar(productosUsuario: any): Observable<Object> {
-    return this.http.request('delete', `${this.baseUrl}/eliminar`, { body: productosUsuario });
-  }
+  // Elimina un producto asociado a un usuario usando nif y sku
+eliminar(usuarioNif: string, productoSku: string): Observable<Object> {
+  const body = { usuarioNif, productoSku };
+  return this.http.request('delete', `${this.baseUrl}/eliminar`, { body });
+}
 }

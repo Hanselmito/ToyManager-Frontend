@@ -1,0 +1,11 @@
+<div class="modal">
+  <h2>{{ modoCrear ? 'Crear Relación Producto-Proveedor' : 'Editar Relación Producto-Proveedor' }}</h2>
+  <form (ngSubmit)="guardar()">
+    <label>SKU Producto: <input [(ngModel)]="productoSku" name="productoSku" [readonly]="!modoCrear"></label>
+    <label>CIF Proveedor: <input [(ngModel)]="proveedorCif" name="proveedorCif" [readonly]="!modoCrear"></label>
+    <label>Precio de Compra: <input type="number" [(ngModel)]="precioCompra" name="precioCompra" step="0.01"></label>
+    <div *ngIf="error" class="modal-error">{{ error }}</div>
+    <button type="submit">{{ modoCrear ? 'Crear' : 'Guardar' }}</button>
+    <button type="button" (click)="close.emit()">Cancelar</button>
+  </form>
+</div>

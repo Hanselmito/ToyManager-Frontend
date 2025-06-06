@@ -1,12 +1,8 @@
 <div class="modal">
   <h2>{{ modoCrear ? 'Crear Proveedor' : 'Editar Proveedor' }}</h2>
   <form (ngSubmit)="guardar()">
-    <label>Nombre:
-      <input [(ngModel)]="nombre" name="nombre" required>
-    </label>
-    <label>Email:
-      <input [(ngModel)]="email" name="email" required>
-    </label>
+    <label>CIF: <input [(ngModel)]="cif" name="cif" [readonly]="!modoCrear"></label>
+    <label>Nombre: <input [(ngModel)]="nombre" name="nombre"></label>
     <div *ngIf="error" class="modal-error">{{ error }}</div>
     <button type="submit">{{ modoCrear ? 'Crear' : 'Guardar' }}</button>
     <button type="button" (click)="close.emit()">Cancelar</button>

@@ -14,6 +14,8 @@
     <button (click)="cargarItems()">Recargar todo</button>
     <button *ngIf="tipo === 'categorias'" (click)="crearProducto.emit()">Crear Categoría</button>
     <button *ngIf="tipo === 'proveedores'" (click)="crearProducto.emit()">Crear Proveedor</button>
+    <button *ngIf="tipo === 'usuarios'" (click)="crearProducto.emit()">Crear Usuario</button>
+    <button *ngIf="tipo === 'productos-usuario'" (click)="crearProducto.emit()">Crear Producto-Usuario</button>
   </div>
 
   <!-- Lista de productos mejorada -->
@@ -39,6 +41,7 @@
       (mouseenter)="productoHover = item"
       (mouseleave)="productoHover = null"
       (dblclick)="mostrarDetalle(item)">
+    <span class="id">{{ item.id }}</span>
     <span class="nombre">{{ item.nombre }}</span>
     <button (click)="eliminar(item); $event.stopPropagation()">Eliminar</button>
   </li>
@@ -76,7 +79,7 @@
       (mouseenter)="productoHover = item"
       (mouseleave)="productoHover = null"
       (dblclick)="mostrarDetalle(item)">
-    <span class="nif">{{ item.nif }}</span>
+    <span class="nif">{{ item.id }}</span>
     <span class="nombre">{{ item.nombre }}</span>
     <span class="email">{{ item.email }}</span>
     <button (click)="eliminar(item); $event.stopPropagation()">Eliminar</button>
@@ -91,23 +94,49 @@
 </div>
 
 <!-- Productos-Usuarios -->
-<ul *ngIf="tipo === 'productos-usuarios'" class="productos-usuarios-lista">
+<ul *ngIf="tipo === 'productos-usuario'" class="productos-usuarios-lista">
   <li *ngFor="let item of items"
       [class.hovered]="item === productoHover"
       (mouseenter)="productoHover = item"
       (mouseleave)="productoHover = null"
       (dblclick)="mostrarDetalle(item)">
-    <span class="usuario-nif">{{ item.usuarioNif }}</span>
-    <span class="producto-sku">{{ item.productoSku }}</span>
-    <span class="producto-nombre">{{ item.productoNombre }}</span>
+    <span class="usuario_nif">{{ item.usuarioNif }}</span>
+    <span class="producto_sku">{{ item.productoSku }}</span>
+    <span class="nombre_producto">{{ item.productoNombre }}</span>
+    <span class="stock">{{ item.stock }}</span>
+    <span class="precio_venta">{{ item.precio_venta | currency:'EUR' }}</span>
+    <img *ngIf="item.imagenUrl" [src]="item.imagenUrl" alt="img" class="producto-img" />
     <button (click)="eliminar(item); $event.stopPropagation()">Eliminar</button>
   </li>
 </ul>
-<div *ngIf="productoDetalle && tipo === 'productos-usuarios'" class="producto-detalle-modal">
+<div *ngIf="productoDetalle && tipo === 'productos-usuario'" class="producto-detalle-modal">
   <h3>Detalle producto-usuario</h3>
   <div><b>Usuario NIF:</b> {{ productoDetalle.usuarioNif }}</div>
   <div><b>Producto SKU:</b> {{ productoDetalle.productoSku }}</div>
   <div><b>Producto Nombre:</b> {{ productoDetalle.productoNombre }}</div>
+  <button (click)="productoDetalle = null">Cerrar</button>
+</div>
+
+<!-- Productos-Proveedores -->
+<ul *ngIf="tipo === 'productos-proveedores'" class="productos-proveedores-lista">
+  <li *ngFor="let item of items"
+      [class.hovered]="item === productoHover"
+      (mouseenter)="productoHover = item"
+      (mouseleave)="productoHover = null"
+      (dblclick)="mostrarDetalle(item)">
+    <span class="producto_sku">{{ item.id.productoSku }}</span>
+    <span class="proveedor_cif">{{ item.id.proveedorCif }}</span>
+    <span class="precio_compra">{{ item.precioCompra | currency:'EUR' }}</span>
+    <button (click)="eliminar(item); $event.stopPropagation()">Eliminar</button>
+  </li>
+</ul>
+<div *ngIf="productoDetalle && tipo === 'productos-proveedores'" class="producto-detalle-modal">
+  <h3>Detalle producto-proveedor</h3>
+  <div><b>Producto SKU:</b> {{ productoDetalle.id.productoSku }}</div>
+  <span></span>
+  <div><b>Proveedor CIF:</b> {{ productoDetalle.id.proveedorCif }}</div>
+  <span></span>
+  <div><b>Precio Compra:</b> {{ productoDetalle.precioCompra | currency:'EUR' }}</div>
   <button (click)="productoDetalle = null">Cerrar</button>
 </div>
 
@@ -163,6 +192,17 @@
       <div><b>Usuario NIF:</b> {{ productoDetalle.usuarioNif }}</div>
       <div><b>Producto SKU:</b> {{ productoDetalle.productoSku }}</div>
       <div><b>Producto Nombre:</b> {{ productoDetalle.productoNombre }}</div>
+      <button (click)="productoDetalle = null">Cerrar</button>
+    </div>
+
+    <!-- Detalle Producto-Proveedor -->
+    <div *ngSwitchCase="'productos-proveedores'">
+      <h3>Detalle producto-proveedor</h3>
+      <div><b>Producto SKU:</b> {{ productoDetalle.id.productoSku }}</div>
+      <span></span>
+      <div><b>Proveedor CIF:</b> {{ productoDetalle.id.proveedorCif }}</div>
+      <span></span>
+      <div><b>Precio Compra:</b> {{ productoDetalle.precioCompra | currency:'EUR' }}</div>
       <button (click)="productoDetalle = null">Cerrar</button>
     </div>
 
