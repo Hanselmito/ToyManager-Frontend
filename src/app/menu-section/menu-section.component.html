@@ -90,27 +90,22 @@
 
 <!-- Productos-Usuarios -->
 <ul *ngIf="tipo === 'productos-usuario'" class="productos-usuarios-lista">
-  <li *ngFor="let item of items"
-      [class.hovered]="item === productoHover"
-      (mouseenter)="productoHover = item"
-      (mouseleave)="productoHover = null"
-      (dblclick)="mostrarDetalle(item)">
-    <span class="usuario_nif">{{ item.id.usuarioNif }}</span>
-    <span class="producto_sku">{{ item.id.productoSku }}</span>
-    <span class="nombre_producto">{{ item.productoSku.nombre }}</span>
-    <span class="descripcion">{{ item.productoSku.descripcion }}</span>
-    <span class="descripcion_corta">{{ item.productoSku.descripcion_corta }}</span>
-    <span class="stock">{{ item.productoSku.stock }}</span>
-    <span class="precio_venta">{{ item.productoSku.precio_venta | currency:'EUR' }}</span>
-    <img *ngIf="item.productoSku.imagen" [src]="item.productoSku.imagen" alt="img" class="producto-img" />
+  <li *ngFor="let item of items">
+    <span class="usuario_nif">{{ item.usuario_nif }}</span>
+    <span class="producto_sku">{{ item.producto_sku }}</span>
+    <span class="nombre_producto">{{ item.nombre_producto }}</span>
+    <span class="descripcion">{{ item.descripcion }}</span>
+    <span class="descripcion_corta">{{ item.descripcion_corta }}</span>
+    <span class="stock">{{ item.stock }}</span>
+    <span class="precio_venta">{{ item.precio_venta | currency:'EUR' }}</span>
     <button (click)="eliminar(item); $event.stopPropagation()">Eliminar</button>
   </li>
 </ul>
 <div *ngIf="productoDetalle && tipo === 'productos-usuario'" class="producto-detalle-modal">
   <h3>Detalle producto-usuario</h3>
-  <div><b>Usuario NIF:</b> {{ productoDetalle.usuarioNif }}</div>
-  <div><b>Producto SKU:</b> {{ productoDetalle.productoSku }}</div>
-  <div><b>Producto Nombre:</b> {{ productoDetalle.productoNombre }}</div>
+  <div><b>Usuario NIF:</b> {{ productoDetalle.usuario_nif }}</div>
+  <div><b>Producto SKU:</b> {{ productoDetalle.producto_sku }}</div>
+  <div><b>Producto Nombre:</b> {{ productoDetalle.nombre_producto }}</div>
   <button (click)="productoDetalle = null">Cerrar</button>
 </div>
 
@@ -161,13 +156,13 @@
     </div>
 
     <!-- Detalle Producto-Usuario -->
-    <div *ngSwitchCase="'productos-usuarios'">
-      <h3>Detalle producto-usuario</h3>
-      <div><b>Usuario NIF:</b> {{ productoDetalle.usuarioNif }}</div>
-      <div><b>Producto SKU:</b> {{ productoDetalle.productoSku }}</div>
-      <div><b>Producto Nombre:</b> {{ productoDetalle.productoNombre }}</div>
-      <button (click)="productoDetalle = null">Cerrar</button>
-    </div>
+    <div *ngIf="productoDetalle && tipo === 'productos-usuario'" class="producto-detalle-modal">
+  <h3>Detalle producto-usuario</h3>
+  <div><b>Usuario NIF:</b> {{ productoDetalle.usuario_nif }}</div>
+  <div><b>Producto SKU:</b> {{ productoDetalle.producto_sku }}</div>
+  <div><b>Producto Nombre:</b> {{ productoDetalle.nombre_producto }}</div>
+  <button (click)="productoDetalle = null">Cerrar</button>
+</div>
 
   </ng-container>
 </div>
