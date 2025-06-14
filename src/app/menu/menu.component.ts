@@ -7,19 +7,18 @@ import { ModalCategoriaComponent } from '../modal-categoria/modal-categoria.comp
 import { ModalProveedorComponent } from '../modal-proveedor/modal-proveedor.component';
 import { ModalUsuarioComponent } from '../modal-usuario/modal-usuario.component';
 import { ModalProductosUsuarioComponent } from '../modal-productos-usuario/modal-productos-usuario.component';
-import { ModalProductosProveedoresComponent } from '../modal-productos-proveedores/modal-productos-proveedores.component';
 
 @Component({
   selector: 'app-menu',
   standalone: true,
   imports: [CommonModule, MenuSectionComponent, ModalProductoComponent, ModalCategoriaComponent,
-    ModalProveedorComponent, ModalUsuarioComponent, ModalProductosUsuarioComponent, ModalProductosProveedoresComponent],
+    ModalProveedorComponent, ModalUsuarioComponent, ModalProductosUsuarioComponent],
   templateUrl: './menu.component.html',
   styleUrls: ['./menu.component.css']
 })
 export class MenuComponent implements OnInit {
   username = '';
-  tipoSeleccionado: 'productos' | 'categorias' | 'proveedores' | 'usuarios' | 'productos-usuario' | 'productos-proveedores' = 'productos';
+  tipoSeleccionado: 'productos' | 'categorias' | 'proveedores' | 'usuarios' | 'productos-usuario' = 'productos';
   modalAbierto = false;
   productoEditar: any = null;
   modoCrear = false;
@@ -43,7 +42,7 @@ export class MenuComponent implements OnInit {
   }
 }
 
-  seleccionar(tipo: 'productos' | 'categorias' | 'proveedores' | 'usuarios' | 'productos-usuario' | 'productos-proveedores') {
+  seleccionar(tipo: 'productos' | 'categorias' | 'proveedores' | 'usuarios' | 'productos-usuario') {
     this.tipoSeleccionado = tipo;
   }
 

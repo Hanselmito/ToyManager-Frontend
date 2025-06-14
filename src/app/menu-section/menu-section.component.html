@@ -114,33 +114,6 @@
   <button (click)="productoDetalle = null">Cerrar</button>
 </div>
 
-<!-- Productos-Proveedores -->
-<ul *ngIf="tipo === 'productos-usuario'" class="productos-usuarios-lista">
-  <li *ngFor="let item of items"
-      [class.hovered]="item === productoHover"
-      (mouseenter)="productoHover = item"
-      (mouseleave)="productoHover = null"
-      (dblclick)="mostrarDetalle(item)">
-      <pre>{{ item | json }}</pre>
-    <span class="usuario_nif">{{ item.id.usuarioNif }}</span>
-    <span class="producto_sku">{{ item.id.productoSku }}</span>
-    <span class="nombre_producto">{{ item.productoSku.nombre }}</span>
-    <span class="descripcion">{{ item.productoSku.descripcion }}</span>
-    <span class="descripcion_corta">{{ item.productoSku.descripcion_corta }}</span>
-    <span class="stock">{{ item.productoSku.stock }}</span>
-    <span class="precio_venta">{{ item.productoSku.precio_venta | currency:'EUR' }}</span>
-    <img *ngIf="item.productoSku.imagen" [src]="item.productoSku.imagen" alt="img" class="producto-img" />
-    <button (click)="eliminar(item); $event.stopPropagation()">Eliminar</button>
-  </li>
-</ul>
-<div *ngIf="productoDetalle && tipo === 'productos-proveedores'" class="producto-detalle-modal">
-  <h3>Detalle producto-proveedor</h3>
-  <div><b>Producto SKU:</b> {{ productoDetalle.id.productoSku }}</div>
-  <div><b>Proveedor CIF:</b> {{ productoDetalle.id.proveedorCif }}</div>
-  <div><b>Precio Compra:</b> {{ productoDetalle.precioCompra | currency:'EUR' }}</div>
-  <button (click)="productoDetalle = null">Cerrar</button>
-</div>
-
   <!-- Panel de detalle dinámico según tipo -->
 <div *ngIf="productoDetalle" class="producto-detalle-modal">
   <ng-container [ngSwitch]="tipo">
@@ -193,15 +166,6 @@
       <div><b>Usuario NIF:</b> {{ productoDetalle.usuarioNif }}</div>
       <div><b>Producto SKU:</b> {{ productoDetalle.productoSku }}</div>
       <div><b>Producto Nombre:</b> {{ productoDetalle.productoNombre }}</div>
-      <button (click)="productoDetalle = null">Cerrar</button>
-    </div>
-
-    <!-- Detalle Producto-Proveedor -->
-    <div *ngSwitchCase="'productos-proveedores'">
-      <h3>Detalle producto-proveedor</h3>
-      <div><b>Producto SKU:</b> {{ productoDetalle.id.productoSku }}</div>
-      <div><b>Proveedor CIF:</b> {{ productoDetalle.id.proveedorCif }}</div>
-      <div><b>Precio Compra:</b> {{ productoDetalle.precioCompra | currency:'EUR' }}</div>
       <button (click)="productoDetalle = null">Cerrar</button>
     </div>
 
