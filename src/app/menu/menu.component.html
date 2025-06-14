@@ -16,7 +16,6 @@
   <button class="menu-sidebar-btn" [class.active]="tipoSeleccionado==='proveedores'" (click)="seleccionar('proveedores')">Proveedores</button>
   <button *ngIf="esAdmin" class="menu-sidebar-btn" [class.active]="tipoSeleccionado==='usuarios'" (click)="seleccionar('usuarios')">Usuarios</button>
   <button *ngIf="esAdmin" class="menu-sidebar-btn" [class.active]="tipoSeleccionado==='productos-usuario'" (click)="seleccionar('productos-usuario')">Productos Usuario</button>
-  <button *ngIf="esAdmin" class="menu-sidebar-btn" [class.active]="tipoSeleccionado==='productos-proveedores'" (click)="seleccionar('productos-proveedores')">Productos Proveedores</button>
 </nav>
 
   <!-- Contenido principal -->
@@ -62,12 +61,5 @@
   [modoCrear]="modoCrear"
   (close)="cerrarModal()">
 </app-modal-productos-usuario>
-
-  <app-modal-productos-proveedores
-    *ngIf="modalAbierto && tipoSeleccionado === 'productos-proveedores'"
-    [productosProveedores]="productoEditar"
-    [modoCrear]="modoCrear"
-    (close)="cerrarModal()">
-  </app-modal-productos-proveedores>
 
 </div>

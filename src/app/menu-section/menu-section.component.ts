@@ -6,7 +6,6 @@ import { CategoriaService } from '../services/categoria.service';
 import { ProveedorService } from '../services/proveedores.service';
 import { UsuarioService } from '../services/usuario.service';
 import { ProductosUsuariosService } from '../services/productos-usuarios.service';
-import { ProductosProveedoresService } from '../services/productos-proveedores.service';
 
 @Component({
   selector: 'app-menu-section',
@@ -16,7 +15,7 @@ import { ProductosProveedoresService } from '../services/productos-proveedores.s
   styleUrls: ['./menu-section.component.css']
 })
 export class MenuSectionComponent implements OnInit, OnChanges {
-  @Input() tipo: 'productos' | 'categorias' | 'proveedores' | 'usuarios' | 'productos-usuario' | 'productos-proveedores' = 'productos';
+  @Input() tipo: 'productos' | 'categorias' | 'proveedores' | 'usuarios' | 'productos-usuario' = 'productos';
   @Output() productoDobleClick = new EventEmitter<any>();
   @Output() crearProducto = new EventEmitter<void>();
   busqueda = '';
@@ -30,8 +29,7 @@ export class MenuSectionComponent implements OnInit, OnChanges {
     private categoriaService: CategoriaService,
     private proveedorService: ProveedorService,
     private usuarioService: UsuarioService,
-    private productosUsuariosService: ProductosUsuariosService,
-    private productosProveedoresService: ProductosProveedoresService
+    private productosUsuariosService: ProductosUsuariosService
   ) {}
 
   mostrarDetalle(item: any) {
@@ -43,6 +41,7 @@ export class MenuSectionComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges() {
+    this.productoDetalle = null; // Reset detail view on type change
     this.cargarItems();
   }
 
@@ -61,9 +60,7 @@ export class MenuSectionComponent implements OnInit, OnChanges {
       console.log("productos-usuario data", data);
       this.items = data;
     });
-  } else if (this.tipo === 'productos-proveedores') {
-      this.productosProveedoresService.getAllProductosProveedores().subscribe(data => this.items = data);
-    }
+  }
   }
 
   buscar() {
@@ -75,8 +72,6 @@ export class MenuSectionComponent implements OnInit, OnChanges {
       this.usuarioService.getUserByEmail(this.busqueda).subscribe(data => {
         this.items = data ? [data] : [];
       });
-    } else if (this.tipo === 'productos-proveedores'){
-      this.productosProveedoresService.obtenerPorProductoSku(this.busqueda).subscribe(data => this.items = data);
     }
   }
 
@@ -91,8 +86,6 @@ export class MenuSectionComponent implements OnInit, OnChanges {
       this.usuarioService.eliminarUsuario(item.id).subscribe(() => this.cargarItems());
     } else if (this.tipo === 'productos-usuario') {
       this.productosUsuariosService.eliminar(item.usuario_nif, item.producto_sku).subscribe(() => this.cargarItems());
-    } else if (this.tipo === 'productos-proveedores') {
-      this.productosUsuariosService.eliminar(item.id.usuarioNif, item.id.productoSku).subscribe(() => this.cargarItems());
     }
   }
 }
